@@ -5,6 +5,6 @@ For test project access
  . https://faneli-game.herokuapp.com/
 
 Steps to run project
- . npm i
- . npm start
+ > npm i
+ > npm start
  
