@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+      .container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #myCanvas{
+        width: 100%;
+        border: 1px solid black;
+      }
+    </style>
+    <base href=".">
+  </head>
+  <body>
+    <script type="module">
+      import engine from './script.js';
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const canvas = document.createElement('canvas');
+      canvas.id = 'myCanvas';
+      canvas.width = Math.abs(w / 2);
+      canvas.height = Math.abs(h / 2);
+
+      document.body.appendChild(canvas);
+
+      var ctxObj = canvas.getContext('2d');
+
+      const eng = engine(ctxObj);
+      document.addEventListener('keydown', eng.onKeyDown);
+
+      eng.run();
+    </script>
+  </body>
+</html>
