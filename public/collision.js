@@ -13,8 +13,11 @@ export default function Collision() {
 
   const checkKill = (enemies, shot) => {
     for (let i = 0; i < enemies.length; i++) {
-      if (checkCollision(enemies[i], shot)) {
-        enemies[i].kill();
+      const enemy = enemies[i];
+      if (enemy.isDead()) continue;
+
+      if (checkCollision(enemy, shot)) {
+        enemy.kill();
         shot.setOff();
         return true;
       }

@@ -11,7 +11,6 @@ export default function engine(ctxObj) {
 
   let frames = 0;
   let status = Status.gameStarted;
-  let score = 0;
   let time = 10;
 
   const MAX_ENEMIES = 10;
@@ -59,15 +58,18 @@ export default function engine(ctxObj) {
   }
 
   const checkCollision = () => {
-    enemies.filter(enemy => !enemy.isDead()).map(enemy => collision.checkCollision(hero, enemy)).forEach(item => {
-      if (item) {
-        status = Status.gameOver;
+    enemies.filter(enemy => !enemy.isDead()).forEach(enemy => {
+      if (collision.checkCollision(hero, enemy)) {
+        hero.stroke(1);
+
+        if (hero.isDead()) status = Status.gameOver;
+        else enemy.kill();
       }
     });
   }
 
   const checkKill = () => {
-    shots.map(shot => collision.checkKill(enemies, shot)).forEach(item => score += item ? 1 : 0);
+    shots.map(shot => collision.checkKill(enemies, shot)).forEach(item => hero.addScore(item ? 1 : 0));
   }
 
   const checkCatchLife = () => {
@@ -125,11 +127,6 @@ export default function engine(ctxObj) {
     }
   }
 
-  const renderScore = () => {
-    renderer.render({ x: ctxObj.canvas.width - 105, y: 5, width: 100, height: 30, color: 'blue' });
-    renderer.renderText({ x: ctxObj.canvas.width - 99, y: 18, font: 'Arial', text: 'Score: ' + score, color: 'white' });
-  }
-
   const render = () => {
     ctxObj.clearRect(0, 0, ctxObj.canvas.width, ctxObj.canvas.height);
 
@@ -143,9 +140,7 @@ export default function engine(ctxObj) {
     shots.forEach(shot => shot.render());
     lifes.forEach(life => life.render());
 
-    renderScore();
-
-    screen.render(status);
+    screen.render(status, hero);
   }
 
   return { onKeyDown, run };
