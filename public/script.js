@@ -3,6 +3,7 @@ import HeroObject from "./hero.js";
 import EnemyObject from "./enemy.js";
 import Status from "./status.js";
 import Collision from "./collision.js";
+import Screen from "./screen.js";
 
 export default function engine(ctxObj) {
 
@@ -21,6 +22,8 @@ export default function engine(ctxObj) {
     }
   }
   const hero = HeroObject(renderer);
+  const screen = Screen(renderer);
+
   const collision = Collision();
 
   loadScene();
@@ -95,14 +98,6 @@ export default function engine(ctxObj) {
     }
   }
 
-  const renderScreenMessage = () => {
-    if (status === Status.gamePaused) {
-      renderer.renderText({ x: ctxObj.canvas.width / 2 - 30, y: ctxObj.canvas.height - 50, font: 'Arial', text: 'PAUSED', color: 'red' });
-    } else if (status === Status.gameOver) {
-      renderer.renderText({ x: ctxObj.canvas.width / 2 - 30, y: ctxObj.canvas.height - 50, font: 'Arial', text: 'GAME OVER', color: 'red' });
-    }
-  }
-
   const renderScore = () => {
     renderer.render({ x: ctxObj.canvas.width - 105, y: 5, width: 100, height: 30, color: 'blue' });
     renderer.renderText({ x: ctxObj.canvas.width - 99, y: 18, font: 'Arial', text: 'Score: ' + score, color: 'white' });
@@ -120,7 +115,7 @@ export default function engine(ctxObj) {
 
     renderScore();
 
-    renderScreenMessage();
+    screen.render(status);
   }
 
   return { onKeyDown, run };
