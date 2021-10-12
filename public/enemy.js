@@ -31,7 +31,7 @@ export default function EnemyObject(renderer) {
 
   const render = () => {
     if (dead) return;
-    renderer.render({ x, y, width, height, color, tag });
+    renderer.renderEnemy({ x, y, width, height, color });
   }
 
   const getX = () => {
@@ -42,5 +42,5 @@ export default function EnemyObject(renderer) {
     return y;
   }
 
-  return { getX, getY, width, height, id, tag, update, render, isOutOfScreen, kill, isDead };
+  return { getX, getY, width, height, id, color, tag, update, render, isOutOfScreen, kill, isDead };
 };

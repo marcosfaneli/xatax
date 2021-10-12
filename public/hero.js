@@ -8,6 +8,7 @@ export default function HeroObject(renderer) {
   const height = 10;
   const color = '#e3cf1b';
   const speed = 8;
+  let lifes = 3;
 
   const directions = {
     'ArrowUp': () => {
@@ -22,6 +23,11 @@ export default function HeroObject(renderer) {
     'ArrowRight': () => {
       x += speed;
     }
+  }
+
+  const addLife = () => {
+    lifes++;
+    console.log(lifes);
   }
 
   const render = () => {
@@ -48,5 +54,9 @@ export default function HeroObject(renderer) {
     return y;
   }
 
-  return { getX, getY, width, height, tag, move, render, shoot };
+  const getLifes = () => {
+    return lifes;
+  }
+
+  return { getX, getY, width, height, tag, move, render, shoot, addLife, getLifes };
 };
