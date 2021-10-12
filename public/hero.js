@@ -9,6 +9,7 @@ export default function HeroObject(renderer) {
   const color = '#e3cf1b';
   const speed = 12;
   let lifes = 3;
+  let score = 0;
 
   const directions = {
     'ArrowUp': () => {
@@ -27,7 +28,23 @@ export default function HeroObject(renderer) {
 
   const addLife = () => {
     lifes++;
-    console.log(lifes);
+  }
+
+  const stroke = (value) => {
+    console.log('stroke');
+    lifes -= value;
+  }
+
+  const isDead = () => {
+    return lifes <= 0;
+  }
+
+  const addScore = (value) => {
+    score += value;
+  }
+
+  const getScore = () => {
+    return score;
   }
 
   const render = () => {
@@ -58,5 +75,5 @@ export default function HeroObject(renderer) {
     return lifes;
   }
 
-  return { getX, getY, width, height, tag, move, render, shoot, addLife, getLifes };
+  return { getX, getY, width, height, tag, move, render, shoot, addLife, isDead, getLifes, addScore, stroke, getScore };
 };
