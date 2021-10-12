@@ -15,6 +15,7 @@ export default function Collision() {
     for (let i = 0; i < enemies.length; i++) {
       if (checkCollision(enemies[i], shot)) {
         enemies[i].kill();
+        shot.setOff();
         return true;
       }
     }

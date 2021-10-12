@@ -92,7 +92,6 @@ export default function engine(ctxObj) {
 
   const updateEnemies = () => {
     enemies = enemies.filter(enemy => !enemy.isOutOfScreen());
-
     // score += MAX_ENEMIES - filtered.length;
 
     while (enemies.length < MAX_ENEMIES) {
@@ -103,7 +102,7 @@ export default function engine(ctxObj) {
   }
 
   const updateShots = () => {
-    const filtered = shots.filter(shot => !shot.isOutOfScreen());
+    const filtered = shots.filter(shot => !shot.isOutOfScreen() && !shot.isOff());
     shots = filtered;
 
     shots.forEach(shot => shot.update());
