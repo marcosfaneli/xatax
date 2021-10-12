@@ -1,6 +1,6 @@
-import bulletObject from "./bullet.js";
+import BulletObject from "./bullet.js";
 
-export default function heroObject(renderer) {
+export default function HeroObject(renderer) {
   const tag = 'hero';
   let x = 20;
   let y = 10;
@@ -36,7 +36,7 @@ export default function heroObject(renderer) {
 
   const shoot = (key) => {
     if (key === ' ') {
-      return bulletObject(x, y, renderer);
+      return BulletObject(x, y, renderer);
     }
   }
 

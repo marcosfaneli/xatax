@@ -1,6 +1,6 @@
 import { randomColor, getRandomInt, uuidv4 } from "./commons.js";
 
-export default function enemyObject(renderer) {
+export default function EnemyObject(renderer) {
   const initial = renderer.ctx.canvas.width;
 
   const id = uuidv4();

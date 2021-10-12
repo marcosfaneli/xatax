@@ -1,6 +1,6 @@
-import renderObject from "./renderer.js";
-import heroObject from "./hero.js";
-import enemyObject from "./enemy.js";
+import RenderObject from "./renderer.js";
+import HeroObject from "./hero.js";
+import EnemyObject from "./enemy.js";
 import Status from "./status.js";
 import Collision from "./collision.js";
 
@@ -13,14 +13,14 @@ export default function engine(ctxObj) {
   let enemies = [];
   let shots = [];
 
-  const renderer = renderObject(ctxObj);
+  const renderer = RenderObject(ctxObj);
 
   const loadScene = () => {
     for (let i = 0; i < MAX_ENEMIES; i++) {
-      enemies.push(enemyObject(renderer));
+      enemies.push(EnemyObject(renderer));
     }
   }
-  const hero = heroObject(renderer);
+  const hero = HeroObject(renderer);
   const collision = Collision();
 
   loadScene();
@@ -67,7 +67,7 @@ export default function engine(ctxObj) {
     // score += MAX_ENEMIES - filtered.length;
 
     while (enemies.length < MAX_ENEMIES) {
-      enemies.push(enemyObject(renderer));
+      enemies.push(EnemyObject(renderer));
     }
 
     enemies.forEach(enemy => enemy.update());

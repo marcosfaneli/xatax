@@ -1,4 +1,4 @@
-export default function bulletObject(x, y, renderer) {
+export default function BulletObject(x, y, renderer) {
   const final = renderer.ctx.canvas.width;
 
   const tag = 'bullet';

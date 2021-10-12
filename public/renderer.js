@@ -1,6 +1,6 @@
 import Cloud from './cloud.js';
 
-export default function renderObject(ctx) {
+export default function RenderObject(ctx) {
 
   const renderImage = (sprite, x, y) => {
     ctx.drawImage(sprite.image, sprite.x, sprite.y, sprite.width, sprite.height, x, y, sprite.width, sprite.height);
