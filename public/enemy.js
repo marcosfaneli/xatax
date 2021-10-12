@@ -7,10 +7,10 @@ export default function EnemyObject(renderer) {
   const tag = 'enemy';
   let x = getRandomInt(initial, initial + (initial / 2));
   let y = getRandomInt(0, renderer.ctx.canvas.height);
-  const width = getRandomInt(10, 30);
-  const height = getRandomInt(10, 30);
+  const width = getRandomInt(40, 60);
+  const height = getRandomInt(40, 60);
   const color = randomColor();
-  const speed = getRandomInt(1, 3);
+  const speed = getRandomInt(1, 6);
   let dead = false;
 
   const update = () => {

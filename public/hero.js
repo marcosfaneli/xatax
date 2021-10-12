@@ -7,7 +7,7 @@ export default function HeroObject(renderer) {
   const width = 10;
   const height = 10;
   const color = '#e3cf1b';
-  const speed = 8;
+  const speed = 12;
   let lifes = 3;
 
   const directions = {
