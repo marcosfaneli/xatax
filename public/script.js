@@ -3,8 +3,6 @@ import heroObject from "./hero.js";
 import enemyObject from "./enemy.js";
 import Status from "./status.js";
 import Collision from "./collision.js";
-import Cloud from "./cloud.js";
-import { getRandomInt } from "./commons.js";
 
 export default function engine(ctxObj) {
 
@@ -13,6 +11,7 @@ export default function engine(ctxObj) {
   const MAX_ENEMIES = 10;
 
   let enemies = [];
+  let shots = [];
 
   const renderer = renderObject(ctxObj);
 
@@ -29,10 +28,19 @@ export default function engine(ctxObj) {
   const onKeyDown = (e) => {
 
     if (e.key === 'Enter') {
-      status = 0;
+      status = status === Status.gameStarted ? Status.gamePaused : Status.gameStarted;
+      run();
     }
 
-    hero.move(e.key);
+    if (status === Status.gameStarted) {
+      hero.move(e.key);
+
+      const shoot = hero.shoot(e.key);
+      if (shoot) {
+        shots.push(shoot);
+      }
+    }
+
     render();
   }
 
@@ -41,37 +49,58 @@ export default function engine(ctxObj) {
   }
 
   const checkCollision = () => {
-    enemies.map(enemy => collision.checkCollision(hero, enemy)).forEach(item => {
+    enemies.filter(enemy => !enemy.isDead()).map(enemy => collision.checkCollision(hero, enemy)).forEach(item => {
       if (item) {
         status = Status.gameOver;
       }
     });
   }
 
-  const update = () => {
+  const checkKill = () => {
+    shots.map(shot => collision.checkKill(enemies, shot)).forEach(item => score += item ? 1 : 0);
+  }
+
+  const updateEnemies = () => {
     const filtered = enemies.filter(enemy => !enemy.isOutOfScreen());
     enemies = filtered;
 
-    score += MAX_ENEMIES - filtered.length;
+    // score += MAX_ENEMIES - filtered.length;
 
     while (enemies.length < MAX_ENEMIES) {
       enemies.push(enemyObject(renderer));
     }
+
     enemies.forEach(enemy => enemy.update());
   }
 
-  const run = () => {
-    ctxObj.clearRect(0, 0, ctxObj.canvas.width, ctxObj.canvas.height);
+  const updateShots = () => {
+    const filtered = shots.filter(shot => !shot.isOutOfScreen());
+    shots = filtered;
 
-    update();
+    shots.forEach(shot => shot.update());
+  }
+
+  const run = () => {
+
+    updateEnemies();
+    updateShots();
 
     checkCollision();
-
-    if (status !== Status.gameOver) {
-      window.requestAnimationFrame(run);
-    }
+    checkKill();
 
     render();
+
+    if (status === Status.gameStarted) {
+      window.requestAnimationFrame(run);
+    }
+  }
+
+  const renderScreenMessage = () => {
+    if (status === Status.gamePaused) {
+      renderer.renderText({ x: ctxObj.canvas.width / 2 - 30, y: ctxObj.canvas.height - 50, font: 'Arial', text: 'PAUSED', color: 'red' });
+    } else if (status === Status.gameOver) {
+      renderer.renderText({ x: ctxObj.canvas.width / 2 - 30, y: ctxObj.canvas.height - 50, font: 'Arial', text: 'GAME OVER', color: 'red' });
+    }
   }
 
   const renderScore = () => {
@@ -80,12 +109,18 @@ export default function engine(ctxObj) {
   }
 
   const render = () => {
+    ctxObj.clearRect(0, 0, ctxObj.canvas.width, ctxObj.canvas.height);
+
     renderSky();
 
     hero.render();
+
     enemies.forEach(enemy => enemy.render());
+    shots.forEach(shot => shot.render());
 
     renderScore();
+
+    renderScreenMessage();
   }
 
   return { onKeyDown, run };

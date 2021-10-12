@@ -12,6 +12,26 @@ export default function renderObject(ctx) {
     ctx.fillText(content.text, content.x, content.y);
   }
 
+  const renderHero = (hero) => {
+    ctx.beginPath();
+    ctx.arc(hero.x, hero.y, hero.width, 0, 2 * Math.PI);
+    ctx.fillStyle = hero.color;
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#003399';
+    ctx.stroke();
+  };
+
+  const renderBullet = (bullet) => {
+    ctx.beginPath();
+    ctx.arc(bullet.x, bullet.y, bullet.width, 0, 2 * Math.PI);
+    ctx.fillStyle = bullet.color;
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#003399';
+    ctx.stroke();
+  };
+
   const render = (object) => {
     const { x, y, width, height, color, tag } = object;
     // console.log(object);
@@ -19,5 +39,5 @@ export default function renderObject(ctx) {
     ctx.fillRect(x, y, width, height);
   }
 
-  return { render, renderImage, renderText, ctx };
+  return { render, renderImage, renderText, renderHero, renderBullet, ctx };
 }

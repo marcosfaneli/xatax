@@ -5,11 +5,21 @@ export default function Collision() {
       hero.getX() + hero.width > enemy.getX() &&
       hero.getY() < enemy.getY() + enemy.height &&
       hero.height + hero.getY() > enemy.getY()) {
-      console.log('collision');
+      console.log('collision', hero.tag, enemy.tag);
       return true;
     }
     return false;
   }
 
-  return { checkCollision };
+  const checkKill = (enemies, shot) => {
+    for (let i = 0; i < enemies.length; i++) {
+      if (checkCollision(enemies[i], shot)) {
+        enemies[i].kill();
+        return true;
+      }
+    }
+    return false;
+  }
+
+  return { checkCollision, checkKill };
 }
