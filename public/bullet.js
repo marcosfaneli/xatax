@@ -1,4 +1,4 @@
-export default function bulletObject(x, y, renderer) {
+export default function BulletObject(x, y, renderer) {
   const final = renderer.ctx.canvas.width;
 
   const tag = 'bullet';
@@ -6,6 +6,7 @@ export default function bulletObject(x, y, renderer) {
   const height = 3;
   const color = '#000';
   const speed = 6;
+  let off = false;
 
   const update = () => {
     x = x < final ? x + speed : final;
@@ -19,6 +20,14 @@ export default function bulletObject(x, y, renderer) {
     renderer.render({ x, y, width, height, color, tag });
   }
 
+  const setOff = () => {
+    off = true;
+  }
+
+  const isOff = () => {
+    return off;
+  }
+
   const getX = () => {
     return x;
   }
@@ -27,5 +36,5 @@ export default function bulletObject(x, y, renderer) {
     return y;
   }
 
-  return { getX, getY, width, height, tag, update, render, isOutOfScreen };
+  return { getX, getY, width, height, tag, update, setOff, isOff, render, isOutOfScreen };
 };

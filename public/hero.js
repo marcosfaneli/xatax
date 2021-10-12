@@ -1,13 +1,15 @@
-import bulletObject from "./bullet.js";
+import BulletObject from "./bullet.js";
 
-export default function heroObject(renderer) {
+export default function HeroObject(renderer) {
   const tag = 'hero';
   let x = 20;
   let y = 10;
   const width = 10;
   const height = 10;
   const color = '#e3cf1b';
-  const speed = 8;
+  const speed = 12;
+  let lifes = 3;
+  let score = 0;
 
   const directions = {
     'ArrowUp': () => {
@@ -24,6 +26,27 @@ export default function heroObject(renderer) {
     }
   }
 
+  const addLife = () => {
+    lifes++;
+  }
+
+  const stroke = (value) => {
+    console.log('stroke');
+    lifes -= value;
+  }
+
+  const isDead = () => {
+    return lifes <= 0;
+  }
+
+  const addScore = (value) => {
+    score += value;
+  }
+
+  const getScore = () => {
+    return score;
+  }
+
   const render = () => {
     renderer.renderHero({ tag, x, y, width, height, color });
   }
@@ -36,7 +59,7 @@ export default function heroObject(renderer) {
 
   const shoot = (key) => {
     if (key === ' ') {
-      return bulletObject(x, y, renderer);
+      return BulletObject(x, y, renderer);
     }
   }
 
@@ -48,5 +71,9 @@ export default function heroObject(renderer) {
     return y;
   }
 
-  return { getX, getY, width, height, tag, move, render, shoot };
+  const getLifes = () => {
+    return lifes;
+  }
+
+  return { getX, getY, width, height, tag, move, render, shoot, addLife, isDead, getLifes, addScore, stroke, getScore };
 };

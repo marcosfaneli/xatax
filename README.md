@@ -9,3 +9,13 @@ Steps to run project
  
  > npm start
  
+## Commands to play
+
+Directions
+  > Arrow left, Arrow right, Arrow up, Arrow Down
+
+Shot
+  > Space
+
+Pause
+  > Enter

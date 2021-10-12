@@ -1,26 +1,35 @@
-import renderObject from "./renderer.js";
-import heroObject from "./hero.js";
-import enemyObject from "./enemy.js";
+import RenderObject from "./renderer.js";
+import HeroObject from "./hero.js";
+import EnemyObject from "./enemy.js";
 import Status from "./status.js";
 import Collision from "./collision.js";
+import Screen from "./screen.js";
+import LifeObject from "./life.js";
+import { getRandomInt } from "./commons.js";
 
 export default function engine(ctxObj) {
 
+  let frames = 0;
   let status = Status.gameStarted;
-  let score = 0;
+  let time = 10;
+
   const MAX_ENEMIES = 10;
 
   let enemies = [];
   let shots = [];
+  let lifes = [];
 
-  const renderer = renderObject(ctxObj);
+  const renderer = RenderObject(ctxObj);
 
   const loadScene = () => {
     for (let i = 0; i < MAX_ENEMIES; i++) {
-      enemies.push(enemyObject(renderer));
+      enemies.push(EnemyObject(renderer));
     }
   }
-  const hero = heroObject(renderer);
+
+  const hero = HeroObject(renderer);
+  const screen = Screen(renderer);
+
   const collision = Collision();
 
   loadScene();
@@ -49,32 +58,53 @@ export default function engine(ctxObj) {
   }
 
   const checkCollision = () => {
-    enemies.filter(enemy => !enemy.isDead()).map(enemy => collision.checkCollision(hero, enemy)).forEach(item => {
-      if (item) {
-        status = Status.gameOver;
+    enemies.filter(enemy => !enemy.isDead()).forEach(enemy => {
+      if (collision.checkCollision(hero, enemy)) {
+        hero.stroke(1);
+
+        if (hero.isDead()) status = Status.gameOver;
+        else enemy.kill();
       }
     });
   }
 
   const checkKill = () => {
-    shots.map(shot => collision.checkKill(enemies, shot)).forEach(item => score += item ? 1 : 0);
+    shots.map(shot => collision.checkKill(enemies, shot)).forEach(item => hero.addScore(item ? 1 : 0));
+  }
+
+  const checkCatchLife = () => {
+    lifes.map(life => collision.checkCollision(hero, life)).forEach(item => {
+      if (item) {
+        lifes.splice(lifes.indexOf(item), 1);
+        hero.addLife();
+      }
+    });
+  }
+
+  const updateLifes = () => {
+    lifes = lifes.filter(life => !life.isOutOfScreen());
+
+    if (frames === time) {
+      lifes.push(LifeObject(renderer));
+      time += getRandomInt(10, ctxObj.canvas.width * 20);
+    }
+
+    lifes.forEach(life => life.update());
   }
 
   const updateEnemies = () => {
-    const filtered = enemies.filter(enemy => !enemy.isOutOfScreen());
-    enemies = filtered;
-
+    enemies = enemies.filter(enemy => !enemy.isOutOfScreen());
     // score += MAX_ENEMIES - filtered.length;
 
     while (enemies.length < MAX_ENEMIES) {
-      enemies.push(enemyObject(renderer));
+      enemies.push(EnemyObject(renderer));
     }
 
     enemies.forEach(enemy => enemy.update());
   }
 
   const updateShots = () => {
-    const filtered = shots.filter(shot => !shot.isOutOfScreen());
+    const filtered = shots.filter(shot => !shot.isOutOfScreen() && !shot.isOff());
     shots = filtered;
 
     shots.forEach(shot => shot.update());
@@ -84,9 +114,11 @@ export default function engine(ctxObj) {
 
     updateEnemies();
     updateShots();
+    updateLifes();
 
     checkCollision();
     checkKill();
+    checkCatchLife();
 
     render();
 
@@ -95,21 +127,10 @@ export default function engine(ctxObj) {
     }
   }
 
-  const renderScreenMessage = () => {
-    if (status === Status.gamePaused) {
-      renderer.renderText({ x: ctxObj.canvas.width / 2 - 30, y: ctxObj.canvas.height - 50, font: 'Arial', text: 'PAUSED', color: 'red' });
-    } else if (status === Status.gameOver) {
-      renderer.renderText({ x: ctxObj.canvas.width / 2 - 30, y: ctxObj.canvas.height - 50, font: 'Arial', text: 'GAME OVER', color: 'red' });
-    }
-  }
-
-  const renderScore = () => {
-    renderer.render({ x: ctxObj.canvas.width - 105, y: 5, width: 100, height: 30, color: 'blue' });
-    renderer.renderText({ x: ctxObj.canvas.width - 99, y: 18, font: 'Arial', text: 'Score: ' + score, color: 'white' });
-  }
-
   const render = () => {
     ctxObj.clearRect(0, 0, ctxObj.canvas.width, ctxObj.canvas.height);
+
+    frames++;
 
     renderSky();
 
@@ -117,10 +138,9 @@ export default function engine(ctxObj) {
 
     enemies.forEach(enemy => enemy.render());
     shots.forEach(shot => shot.render());
+    lifes.forEach(life => life.render());
 
-    renderScore();
-
-    renderScreenMessage();
+    screen.render(status, hero);
   }
 
   return { onKeyDown, run };
