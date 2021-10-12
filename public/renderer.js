@@ -32,6 +32,23 @@ export default function RenderObject(ctx) {
     ctx.stroke();
   };
 
+  const renderLife = (life) => {
+    ctx.beginPath();
+    ctx.arc(life.x, life.y, life.width, 0, 2 * Math.PI);
+    ctx.fillStyle = life.color;
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#1E90FF';
+    ctx.stroke();
+  };
+
+  const renderEnemy = (enemy) => {
+    const { x, y, width, height, color, tag } = enemy;
+    // console.log(object);
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width, height);
+  }
+
   const render = (object) => {
     const { x, y, width, height, color, tag } = object;
     // console.log(object);
@@ -39,5 +56,5 @@ export default function RenderObject(ctx) {
     ctx.fillRect(x, y, width, height);
   }
 
-  return { render, renderImage, renderText, renderHero, renderBullet, ctx };
+  return { render, renderEnemy, renderImage, renderText, renderHero, renderBullet, renderLife, ctx };
 }
