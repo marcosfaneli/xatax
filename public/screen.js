@@ -2,8 +2,15 @@ import Status from './status.js';
 
 export default function Screen(renderer) {
 
+  const ctx = renderer.ctx;
+
   const screenPaused = () => {
-    renderer.renderText({ x: (renderer.ctx.canvas.width / 2) - 210, y: renderer.ctx.canvas.height - 50, font: "bold 72px 'Press Start 2P'", text: 'PAUSED', color: 'red' });
+    renderer.renderText({
+      x: (renderer.ctx.canvas.width / 2) - 210,
+      y: renderer.ctx.canvas.height - 150,
+      font: "bold 72px 'Press Start 2P'",
+      text: 'PAUSED', color: 'red'
+    });
   };
 
   const screenGameOver = () => {
@@ -11,7 +18,6 @@ export default function Screen(renderer) {
   };
 
   const renderScore = (hero) => {
-    const ctx = renderer.ctx;
 
     const size = 200;
     const margin = 10;
@@ -23,7 +29,7 @@ export default function Screen(renderer) {
     let y = margin;
     ctx.fillStyle = '#571be3';
     ctx.strokeStyle = 'red';
-    ctx.fillRect(x, margin, size, (size / 2));
+    ctx.fillRect(x, margin, size, 95);
 
     y = y * 3;
     ctx.fillStyle = '#a38ade';
@@ -32,7 +38,7 @@ export default function Screen(renderer) {
 
     y = y + 22;
     ctx.fillStyle = '#fff';
-    ctx.font = "bold 24px " + fontName;
+    ctx.font = "bold 18px " + fontName;
     ctx.fillText(hero.getScore(), x + margin * 2, y);
 
     y = y + 20;
@@ -40,45 +46,50 @@ export default function Screen(renderer) {
     ctx.font = "bold 10px " + fontName;
     ctx.fillText('Lifes', x + margin, y);
 
-    y = y + 22;
+    y = y + 23;
     ctx.fillStyle = '#fff';
-    ctx.font = "bold 24px " + fontName;
+    ctx.font = "bold 18px " + fontName;
     ctx.fillText(hero.getLifes(), x + margin * 2, y);
   }
 
   const renderLegend = () => {
-    const ctx = renderer.ctx;
 
-    const size = 100;
+    const size = 48;
     const margin = 10;
-    const position = ctx.canvas.height - (size + margin);
+    let position = ctx.canvas.height - (size + margin);
+
+    const fontName = "'Press Start 2P'"
 
     ctx.fillStyle = 'rgba(255,255,255,.5)';
     ctx.fillRect(margin, position, ctx.canvas.width - (margin * 2), size);
 
     ctx.fillStyle = '#000';
-    ctx.font = "bold 16px " + fontName;
-    ctx.fillText('Directions', position + margin, margin * 2);
+    ctx.font = "bold 12px " + fontName;
+    ctx.fillText('Directions', margin * 2, position + (margin * 2));
+
+    position += 36;
 
     ctx.fillStyle = '#000';
-    ctx.font = "bold 14px " + fontName;
-    ctx.fillText('Arrow left, Arrow right, Arrow down, Arrow up', position + 16, margin * 3);
+    ctx.font = " 10px " + fontName;
+    ctx.fillText('Arrow left, Arrow right, Arrow down, Arrow up', margin + 26, position);
+
+    position -= 26;
 
     ctx.fillStyle = '#000';
-    ctx.font = "bold 16px " + fontName;
-    ctx.fillText('Fire', position + margin, margin + 100);
+    ctx.font = "bold 12px " + fontName;
+    ctx.fillText('Fire', margin + 520, position + margin);
 
     ctx.fillStyle = '#000';
-    ctx.font = "bold 14px " + fontName;
-    ctx.fillText('Space', position + 16, 100 + (margin * 3));
+    ctx.font = " 10px " + fontName;
+    ctx.fillText('Space', 550, position + 26);
 
     ctx.fillStyle = '#000';
-    ctx.font = "bold 16px " + fontName;
-    ctx.fillText('Commands', position + margin, margin + 150);
+    ctx.font = "bold 12px " + fontName;
+    ctx.fillText('Commands', margin + 650, position + margin);
 
     ctx.fillStyle = '#000';
-    ctx.font = "bold 14px " + fontName;
-    ctx.fillText('Enter - pause/resume', position + 16, 150 + (margin * 3));
+    ctx.font = " 10px " + fontName;
+    ctx.fillText('Enter - pause/resume', 680, position + 26);
   }
 
   const render = (status, hero) => {
