@@ -55,6 +55,12 @@ export default function engine(ctxObj) {
 
   const renderSky = () => {
     renderer.render({ x: 0, y: 0, width: ctxObj.canvas.width, height: ctxObj.canvas.height, color: '#bbf3f9' });
+    // const grd = ctxObj.createLinearGradient(0, 0, 0, ctxObj.canvas.height);
+    // grd.addColorStop(0, "black");
+    // grd.addColorStop(1, "blue");
+
+    // ctxObj.fillStyle = grd;
+    // ctxObj.fillRect(20, 20, 150, 100);
   }
 
   const checkCollision = () => {

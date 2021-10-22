@@ -2,8 +2,8 @@ import BulletObject from "./bullet.js";
 
 export default function HeroObject(renderer) {
   const tag = 'hero';
-  let x = 20;
-  let y = 10;
+  let x = 50;
+  let y = 50;
   const width = 10;
   const height = 10;
   const color = '#e3cf1b';
