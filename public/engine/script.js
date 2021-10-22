@@ -6,6 +6,7 @@ import Collision from "./collision.js";
 import Screen from "./screen.js";
 import LifeObject from "./life.js";
 import { getRandomInt } from "./commons.js";
+import Sky from "./sky.js";
 
 export default function engine(ctxObj) {
 
@@ -29,6 +30,7 @@ export default function engine(ctxObj) {
 
   const hero = HeroObject(renderer);
   const screen = Screen(renderer);
+  const sky = Sky(renderer);
 
   const collision = Collision();
 
@@ -49,18 +51,6 @@ export default function engine(ctxObj) {
         shots.push(shoot);
       }
     }
-
-    render();
-  }
-
-  const renderSky = () => {
-    renderer.render({ x: 0, y: 0, width: ctxObj.canvas.width, height: ctxObj.canvas.height, color: '#bbf3f9' });
-    // const grd = ctxObj.createLinearGradient(0, 0, 0, ctxObj.canvas.height);
-    // grd.addColorStop(0, "black");
-    // grd.addColorStop(1, "blue");
-
-    // ctxObj.fillStyle = grd;
-    // ctxObj.fillRect(20, 20, 150, 100);
   }
 
   const checkCollision = () => {
@@ -100,7 +90,6 @@ export default function engine(ctxObj) {
 
   const updateEnemies = () => {
     enemies = enemies.filter(enemy => !enemy.isOutOfScreen());
-    // score += MAX_ENEMIES - filtered.length;
 
     while (enemies.length < MAX_ENEMIES) {
       enemies.push(EnemyObject(renderer));
@@ -138,8 +127,7 @@ export default function engine(ctxObj) {
 
     frames++;
 
-    renderSky();
-
+    sky.render();
     hero.render();
 
     enemies.forEach(enemy => enemy.render());
