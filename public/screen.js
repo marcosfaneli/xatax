@@ -6,15 +6,21 @@ export default function Screen(renderer) {
 
   const screenPaused = () => {
     renderer.renderText({
-      x: (renderer.ctx.canvas.width / 2) - 210,
-      y: renderer.ctx.canvas.height - 150,
+      x: (ctx.canvas.width / 2) - 210,
+      y: ctx.canvas.height - 150,
       font: "bold 72px 'Press Start 2P'",
       text: 'PAUSED', color: 'red'
     });
   };
 
   const screenGameOver = () => {
-    renderer.renderText({ x: (renderer.ctx.canvas.width / 2) - 160, y: renderer.ctx.canvas.height - 50, font: "bold 72px 'Press Start 2P'", text: 'GAME OVER', color: 'red' });
+    renderer.renderText({
+      x: (ctx.canvas.width / 2) - 330,
+      y: ctx.canvas.height - 150,
+      font: "bold 72px 'Press Start 2P'",
+      text: 'GAME OVER',
+      color: 'red'
+    });
   };
 
   const renderScore = (hero) => {
