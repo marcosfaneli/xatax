@@ -50,10 +50,12 @@ export default function RenderObject(ctx) {
   }
 
   const render = (object) => {
-    const { x, y, width, height, color, tag } = object;
+    const { x, y, width, height, color, tag, opacity } = object;
     // console.log(object);
+    const op = opacity || 1;
+
     ctx.fillStyle = color;
-    ctx.fillRect(x, y, width, height);
+    ctx.fillRect(x, y, width, height, op);
   }
 
   return { render, renderEnemy, renderImage, renderText, renderHero, renderBullet, renderLife, ctx };

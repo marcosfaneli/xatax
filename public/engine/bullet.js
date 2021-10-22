@@ -4,7 +4,7 @@ export default function BulletObject(x, y, renderer) {
   const tag = 'bullet';
   const width = 3;
   const height = 3;
-  const color = '#000';
+  const color = '#fff';
   const speed = 6;
   let off = false;
 
