@@ -8,7 +8,6 @@ export default function Sky(renderer) {
   const MAX_STARS = 100;
 
   const createSpace = () => {
-    const initial = getRandomInt(30, 90);
     for (let i = 0; i < MAX_STARS; i++) {
       stars.push(new StarObject(renderer, getRandomInt(10, ctx.canvas.width)));
     }

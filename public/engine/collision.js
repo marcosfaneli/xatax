@@ -5,7 +5,7 @@ export default function Collision() {
       hero.getX() + hero.width > enemy.getX() &&
       hero.getY() < enemy.getY() + enemy.height &&
       hero.height + hero.getY() > enemy.getY()) {
-      console.log('collision', hero.tag, enemy.tag);
+      // console.log('collision', hero.tag, enemy.tag);
       return true;
     }
     return false;

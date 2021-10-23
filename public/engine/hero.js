@@ -31,7 +31,6 @@ export default function HeroObject(renderer) {
   }
 
   const stroke = (value) => {
-    console.log('stroke');
     lifes -= value;
   }
 

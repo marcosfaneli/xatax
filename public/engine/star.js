@@ -20,17 +20,10 @@ export default function StarObject(renderer, startInitial) {
   }
 
   const render = () => {
-    console.log(`rendering star`);
     renderer.render({ x, y, width, height, color, tag, opacity: 95 });
   }
 
-  const getX = () => {
-    return x;
-  }
-
-  const getY = () => {
-    return y;
-  }
-
-  return { getX, getY, width, height, tag, update, render, isOutOfScreen };
+  return {
+    update, render, isOutOfScreen
+  };
 };
