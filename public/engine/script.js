@@ -12,7 +12,7 @@ import Api from "./services/api.js";
 export default function engine(ctxObj) {
 
   let frames = 0;
-  let status = Status.gameStarted;
+  let status = Status.gameStart;
   let time = 10;
 
   const MAX_ENEMIES = 10;
@@ -43,6 +43,27 @@ export default function engine(ctxObj) {
   const collision = Collision();
 
   init();
+
+  const onKeyUp = (e) => {
+    // if (status === Status.gameStart) {
+    //   status = Status.gamePlay;
+    // }
+    // if (status === Status.gameOver) {
+    //   reset();
+    // }
+    console.log(e.key);
+    screen.update(e.key);
+  }
+
+  const reset = () => {
+    status = Status.gameStart;
+    hero.reset();
+    enemies.forEach(enemy => enemy.reset());
+    shots.forEach(shot => shot.reset());
+    lifes.forEach(life => life.reset());
+    time = 10;
+    frames = 0;
+  }
 
   const onKeyDown = (e) => {
 
@@ -145,5 +166,5 @@ export default function engine(ctxObj) {
     screen.render(status, hero, topPlayers);
   }
 
-  return { onKeyDown, run };
+  return { onKeyDown, onKeyUp, run };
 }

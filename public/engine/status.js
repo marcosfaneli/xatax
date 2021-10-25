@@ -5,4 +5,5 @@ export default {
   gamePaused: 3,
   gameResumed: 4,
   gameReset: 5,
+  gameStart: 6,
 };
