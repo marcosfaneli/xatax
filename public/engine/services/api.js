@@ -9,13 +9,14 @@ export default function Api() {
   }
 
   const recordScore = async (name, score) => {
-    await fetch(`${URL}/record-score`, {
+    const response = await fetch(`${URL}/record-score`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ name, score })
     });
+    return await response.json();
   }
 
   return {

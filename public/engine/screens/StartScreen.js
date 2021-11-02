@@ -29,9 +29,9 @@ export default function StartScreen(ctx, renderer) {
     });
 
     renderer.renderText({
-      x: (ctx.canvas.width / 2) - 147,
+      x: (ctx.canvas.width / 2) - 127,
       y: (ctx.canvas.height / 2) + 65,
-      font: "14px 'Press Start 2P'",
+      font: "12px 'Press Start 2P'",
       text: 'PRESS KEY TO CONTINUE',
       color: 'red'
     });

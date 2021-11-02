@@ -2,6 +2,7 @@ import LegendScreen from './screens/LegendScreen.js';
 import ScoreScreen from './screens/ScoreScreen.js';
 import StartScreen from './screens/StartScreen.js';
 import TopPlayersScreen from './screens/TopPlayersScreen.js';
+import GameOverScreen from './screens/GameOverScreen.js';
 import Status from './status.js';
 
 export default function Screen(renderer) {
@@ -14,6 +15,7 @@ export default function Screen(renderer) {
   const scoreScreen = ScoreScreen(ctx);
   const topPlayersScreen = TopPlayersScreen(ctx);
   const startScreen = StartScreen(ctx, renderer);
+  const gameOverScreen = GameOverScreen(ctx, renderer, true);
 
   const update = (key) => {
     if (key === 'Backspace') {
@@ -47,18 +49,12 @@ export default function Screen(renderer) {
     });
   };
 
-  const screenGameOver = () => {
-    renderer.renderText({
-      x: (ctx.canvas.width / 2) - 330,
-      y: ctx.canvas.height - 150,
-      font: "bold 72px 'Press Start 2P'",
-      text: 'GAME OVER',
-      color: 'red'
-    });
-  };
-
   const screenStart = () => {
     startScreen.render(message);
+  };
+
+  const screenGameOver = (hero) => {
+    gameOverScreen.render(hero, message);
   };
 
   const render = (status, hero) => {
@@ -67,7 +63,7 @@ export default function Screen(renderer) {
         screenPaused();
         break;
       case Status.gameOver:
-        screenGameOver();
+        screenGameOver(hero);
         break;
       case Status.gameStart:
         screenStart();
