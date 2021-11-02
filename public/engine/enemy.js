@@ -10,7 +10,7 @@ export default function EnemyObject(renderer) {
   const width = getRandomInt(40, 60);
   const height = getRandomInt(40, 60);
   const color = randomColor();
-  const speed = getRandomInt(1, 6);
+  const speed = getRandomInt(4, 8);
   let dead = false;
 
   const update = () => {

@@ -7,7 +7,6 @@ import Screen from "./screen.js";
 import LifeObject from "./life.js";
 import { getRandomInt } from "./commons.js";
 import Sky from "./sky.js";
-import Api from "./services/api.js";
 
 export default function engine(ctxObj) {
 
@@ -20,10 +19,8 @@ export default function engine(ctxObj) {
   let enemies = [];
   let shots = [];
   let lifes = [];
-  let topPlayers = [];
 
   const renderer = RenderObject(ctxObj);
-  const api = Api();
 
   const loadScene = () => {
     for (let i = 0; i < MAX_ENEMIES; i++) {
@@ -33,7 +30,6 @@ export default function engine(ctxObj) {
 
   const init = async () => {
     loadScene();
-    topPlayers = await api.getTopPlayers();
   }
 
   const hero = HeroObject(renderer);
@@ -51,7 +47,6 @@ export default function engine(ctxObj) {
     // if (status === Status.gameOver) {
     //   reset();
     // }
-    console.log(e.key);
     screen.update(e.key);
   }
 
@@ -163,7 +158,7 @@ export default function engine(ctxObj) {
     shots.forEach(shot => shot.render());
     lifes.forEach(life => life.render());
 
-    screen.render(status, hero, topPlayers);
+    screen.render(status, hero);
   }
 
   return { onKeyDown, onKeyUp, run };

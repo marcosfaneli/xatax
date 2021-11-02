@@ -1,5 +1,6 @@
 import LegendScreen from './screens/LegendScreen.js';
 import ScoreScreen from './screens/ScoreScreen.js';
+import StartScreen from './screens/StartScreen.js';
 import TopPlayersScreen from './screens/TopPlayersScreen.js';
 import Status from './status.js';
 
@@ -12,13 +13,29 @@ export default function Screen(renderer) {
   const legendScreen = LegendScreen(ctx);
   const scoreScreen = ScoreScreen(ctx);
   const topPlayersScreen = TopPlayersScreen(ctx);
+  const startScreen = StartScreen(ctx, renderer);
 
   const update = (key) => {
     if (key === 'Backspace') {
       message = message.slice(0, -1);
-    } else if (key !== 'Shift' && key !== 'Control' && key !== 'Alt' && key !== 'Meta') {
-      message += key;
+    } else if (
+      key !== 'Shift' &&
+      key !== 'Control' &&
+      key !== 'Alt' &&
+      key !== 'Meta' &&
+      key !== 'CapsLock' &&
+      key !== 'Tab' &&
+      key !== 'Enter' &&
+      key !== 'ArrowUp' &&
+      key !== 'ArrowDown' &&
+      key !== 'ArrowLeft' &&
+      key !== 'ArrowRight' &&
+      message.length < 8
+    ) {
+      message += key.toUpperCase();
     }
+
+    screenStart();
   };
 
   const screenPaused = () => {
@@ -40,29 +57,11 @@ export default function Screen(renderer) {
     });
   };
 
-  const startScreen = () => {
-
-    const size = 360
-    const height = 150;
-
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(
-      (ctx.canvas.width / 2) - (size / 2),
-      (ctx.canvas.height / 2) - (height / 2),
-      size,
-      height
-    );
-
-    renderer.renderText({
-      x: (ctx.canvas.width / 2) - 170,
-      y: (ctx.canvas.height / 2) - 45,
-      font: "bold 22px 'Press Start 2P'",
-      text: 'Input your name',
-      color: 'red'
-    });
+  const screenStart = () => {
+    startScreen.render(message);
   };
 
-  const render = (status, hero, players) => {
+  const render = (status, hero) => {
     switch (status) {
       case Status.gamePaused:
         screenPaused();
@@ -71,7 +70,7 @@ export default function Screen(renderer) {
         screenGameOver();
         break;
       case Status.gameStart:
-        startScreen();
+        screenStart();
         break;
       default:
         break;
@@ -79,7 +78,7 @@ export default function Screen(renderer) {
 
     scoreScreen.render(hero);
     legendScreen.render();
-    topPlayersScreen.render(players);
+    topPlayersScreen.render();
   };
 
   return { screenPaused, screenGameOver, update, render };

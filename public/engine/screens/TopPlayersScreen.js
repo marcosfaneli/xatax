@@ -1,9 +1,21 @@
+import Api from "../services/api.js";
+
 export default function TopPlayersScreen(ctx) {
 
   const size = 250;
   const margin = 10;
   const fontName = "'Press Start 2P'";
   const end = ctx.canvas.width - (margin * 2);
+
+  let players = [];
+
+  const update = () => {
+    Api().getTopPlayers().then(data => {
+      players = data;
+    });
+  }
+
+  update();
 
   const renderPlayer = (player, x, y) => {
     ctx.fillStyle = '#fff';
@@ -15,7 +27,7 @@ export default function TopPlayersScreen(ctx) {
     ctx.fillText(player.score, end - (player.score.toString().length * 10), y);
   }
 
-  const render = (players) => {
+  const render = () => {
 
     if (!players || players.length === 0) {
       return;
@@ -26,7 +38,7 @@ export default function TopPlayersScreen(ctx) {
     let y = 115;
     ctx.fillStyle = '#571be3';
     ctx.strokeStyle = 'red';
-    ctx.fillRect(x, y, size, 248);
+    ctx.fillRect(x, y, size, 250);
 
     y += 20;
     ctx.fillStyle = '#a38ade';
