@@ -12,7 +12,8 @@ export default function Api() {
     const response = await fetch(`${URL}/record-score`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-game-name': 'xatax'
       },
       body: JSON.stringify({ name, score })
     });
