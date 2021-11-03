@@ -20,7 +20,7 @@ export default function TopPlayersScreen(ctx) {
   const renderPlayer = (player, x, y) => {
     ctx.fillStyle = '#fff';
     ctx.font = "10px " + fontName;
-    ctx.fillText(player.name, x + margin * 2, y);
+    ctx.fillText(player.user, x + margin * 2, y);
 
     ctx.fillStyle = '#a38ade';
     ctx.font = " 10px " + fontName;
@@ -58,5 +58,6 @@ export default function TopPlayersScreen(ctx) {
 
   return {
     render,
+    update
   }
 }

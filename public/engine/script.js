@@ -22,6 +22,12 @@ export default function engine(ctxObj) {
 
   const renderer = RenderObject(ctxObj);
 
+  const hero = HeroObject(renderer);
+  const screen = Screen(renderer);
+  const sky = Sky(renderer);
+
+  const collision = Collision();
+
   const loadScene = () => {
     for (let i = 0; i < MAX_ENEMIES; i++) {
       enemies.push(EnemyObject(renderer));
@@ -32,30 +38,18 @@ export default function engine(ctxObj) {
     loadScene();
   }
 
-  const hero = HeroObject(renderer);
-  const screen = Screen(renderer);
-  const sky = Sky(renderer);
-
-  const collision = Collision();
-
   init();
 
   const onKeyUp = (e) => {
-    // if (status === Status.gameStart) {
-    //   status = Status.gamePlay;
-    // }
-    // if (status === Status.gameOver) {
-    //   reset();
-    // }
-    screen.update(e.key);
+    screen.write(e.key);
   }
 
   const reset = () => {
     status = Status.gameStart;
     hero.reset();
-    enemies.forEach(enemy => enemy.reset());
-    shots.forEach(shot => shot.reset());
-    lifes.forEach(life => life.reset());
+    enemies = [];
+    shots = [];
+    lifes = [];
     time = 10;
     frames = 0;
   }
@@ -63,7 +57,17 @@ export default function engine(ctxObj) {
   const onKeyDown = (e) => {
 
     if (e.key === 'Enter') {
+
+      if (status === Status.gameOver) {
+        reset();
+        screen.update();
+        run();
+
+        return;
+      }
+
       status = status === Status.gameStarted ? Status.gamePaused : Status.gameStarted;
+
       run();
     }
 
@@ -130,6 +134,23 @@ export default function engine(ctxObj) {
   }
 
   const run = () => {
+    ctxObj.clearRect(0, 0, ctxObj.canvas.width, ctxObj.canvas.height);
+
+    switch (status) {
+      case Status.gamePaused:
+        console.log('game paused ' + frames);
+        break;
+      case Status.gameOver:
+        console.log('game over ' + frames);
+        break;
+      case Status.gameStart:
+        console.log('game start ' + frames);
+        break;
+      default:
+        break;
+    }
+
+    frames++;
 
     updateEnemies();
     updateShots();
@@ -147,9 +168,6 @@ export default function engine(ctxObj) {
   }
 
   const render = () => {
-    ctxObj.clearRect(0, 0, ctxObj.canvas.width, ctxObj.canvas.height);
-
-    frames++;
 
     sky.render();
     hero.render();

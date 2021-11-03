@@ -22,21 +22,21 @@ export default function GameOverScreen(ctx, renderer) {
       color: 'blue'
     });
 
-    const sizeText = data.position.toString().length * 72 / 2;
+    const sizeText = data.score.toString().length * 72 / 2;
 
     renderer.renderText({
       x: (ctx.canvas.width / 2) - sizeText,
       y: (ctx.canvas.height / 2) + 40,
       font: "bold 72px 'Press Start 2P'",
-      text: data.position,// + 'st place',
+      text: data.score,// + 'st place',
       color: 'yellow'
     });
 
     renderer.renderText({
-      x: (ctx.canvas.width / 2) - 98,
+      x: (ctx.canvas.width / 2) - 84,
       y: (ctx.canvas.height / 2) + 65,
-      font: "14px 'Press Start 2P'",
-      text: 'Your Position',
+      font: "15px 'Press Start 2P'",
+      text: 'Your Score',
       color: 'blue'
     });
   }

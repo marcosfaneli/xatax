@@ -17,7 +17,7 @@ export default function Screen(renderer) {
   const startScreen = StartScreen(ctx, renderer);
   const gameOverScreen = GameOverScreen(ctx, renderer, true);
 
-  const update = (key) => {
+  const write = (key) => {
     if (key === 'Backspace') {
       message = message.slice(0, -1);
     } else if (
@@ -57,6 +57,10 @@ export default function Screen(renderer) {
     gameOverScreen.render(hero, message);
   };
 
+  const update = () => {
+    topPlayersScreen.update();
+  };
+
   const render = (status, hero) => {
     switch (status) {
       case Status.gamePaused:
@@ -77,5 +81,5 @@ export default function Screen(renderer) {
     topPlayersScreen.render();
   };
 
-  return { screenPaused, screenGameOver, update, render };
+  return { screenPaused, screenGameOver, write, update, render };
 }

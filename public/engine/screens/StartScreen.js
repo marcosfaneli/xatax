@@ -4,7 +4,15 @@ export default function StartScreen(ctx, renderer) {
     const size = 360
     const height = 150;
 
-    ctx.fillStyle = 'rgba(255, 255, 255, .7)';
+
+    ctx.clearRect(
+      (ctx.canvas.width / 2) - (size / 2),
+      (ctx.canvas.height / 2) - (height / 2),
+      size,
+      height,
+    );
+
+    ctx.fillStyle = 'rgba(255, 255, 255)';
     ctx.fillRect(
       (ctx.canvas.width / 2) - (size / 2),
       (ctx.canvas.height / 2) - (height / 2),
@@ -20,8 +28,10 @@ export default function StartScreen(ctx, renderer) {
       color: 'red'
     });
 
+    const sizeText = name.toString().length * 40 / 2;
+
     renderer.renderText({
-      x: (ctx.canvas.width / 2) - 162,
+      x: (ctx.canvas.width / 2) - sizeText,
       y: (ctx.canvas.height / 2) + 25,
       font: "bold 40px 'Press Start 2P'",
       text: name,

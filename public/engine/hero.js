@@ -11,6 +11,13 @@ export default function HeroObject(renderer) {
   let lifes = 3;
   let score = 0;
 
+  const reset = () => {
+    x = 50;
+    y = 50;
+    lifes = 3;
+    score = 0;
+  }
+
   const directions = {
     'ArrowUp': () => {
       y -= speed;
@@ -74,5 +81,20 @@ export default function HeroObject(renderer) {
     return lifes;
   }
 
-  return { getX, getY, width, height, tag, move, render, shoot, addLife, isDead, getLifes, addScore, stroke, getScore };
+  return {
+    getX,
+    getY,
+    width,
+    height,
+    tag,
+    move,
+    render,
+    shoot,
+    addLife,
+    isDead,
+    getLifes,
+    addScore, stroke,
+    getScore,
+    reset
+  };
 };
